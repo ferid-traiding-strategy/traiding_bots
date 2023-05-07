@@ -1,0 +1,25 @@
+Moving Average Crossover Strategy
+
+//@version=4
+strategy("Ferid´s Strategy", shorttitle="MAC Strategy", overlay=true)
+
+// Eingabeparameter
+fast_length = input(9, title="Fast Moving Average Length", minval=1)
+slow_length = input(21, title="Slow Moving Average Length", minval=1)
+src = close
+
+// Berechnung der gleitenden Durchschnitte
+fast_ma = sma(src, fast_length)
+slow_ma = sma(src, slow_length)
+
+// Handelssignale
+long_signal = crossover(fast_ma, slow_ma)
+short_signal = crossunder(fast_ma, slow_ma)
+
+// Zeichne die gleitenden Durchschnitte auf den Chart
+plot(fast_ma, title="Fast Moving Average", color=color.blue, linewidth=2)
+plot(slow_ma, title="Slow Moving Average", color=color.red, linewidth=2)
+
+// Handelsstrategie
+strategy.entry("Long", strategy.long, when=long_signal)
+strategy.entry("Short", strategy.short, when=short_signal)
